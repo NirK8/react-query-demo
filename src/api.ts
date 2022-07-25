@@ -10,3 +10,8 @@ export const getUsers = async (): Promise<User[]> =>
 
 export const getUser = (userId: string): Promise<User> =>
   axios.get(`/${userId}`);
+
+export const deleteUser = (userId: string) =>
+  axios.put(`/${userId}`, {
+    status: 0,
+  });

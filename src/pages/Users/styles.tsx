@@ -1,9 +1,16 @@
-import { ReactNode } from "react";
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import styled from "styled-components";
+
+import { MouseEventHandler } from "react";
 
 type TitleProps = {
   firstName: string;
   lastName: string;
+  className?: string;
+};
+type TrashIconProps = {
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   className?: string;
 };
 
@@ -13,6 +20,7 @@ export const Container = styled.div`
   height: 70%;
   min-height: 500px;
   display: flex;
+  position: relative;
   flex-direction: column;
   padding: 2rem;
   box-sizing: border-box;
@@ -28,6 +36,7 @@ export const Title = styled(
     </div>
   )
 )`
+  position: relative;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -55,4 +64,31 @@ export const Detail = styled.div`
   padding: 1rem 0;
   box-sizing: border-box;
   font-weight: 300;
+`;
+
+export const TrashIcon = styled(({ className, onClick }: TrashIconProps) => (
+  <IconButton className={className} onClick={onClick}>
+    <DeleteIcon />
+  </IconButton>
+))`
+  &.MuiIconButton-root {
+    &.MuiIcon-root {
+      cursor: pointer;
+      max-width: 24px;
+      max-height: 24px;
+    }
+    z-index: 1;
+    position: absolute;
+    right: 1.25rem;
+    top: 1rem;
+    cursor: pointer;
+  }
+`;
+
+export const Loading = styled.h1.attrs({ children: "Loading..." })`
+  align-self: start;
+`;
+
+export const NoResults = styled.h1.attrs({ children: "No Results" })`
+  align-self: start;
 `;
