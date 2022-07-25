@@ -1,17 +1,12 @@
 import axios from "axios";
 
-import { POKEMON_URL } from "./consts";
-import { Pokemon } from "./types";
-axios.defaults.baseURL = POKEMON_URL;
+import { BASE_URL } from "./consts";
+import { User } from "./types";
+axios.defaults.baseURL = BASE_URL;
 axios.interceptors.response.use((res) => res.data);
 
-export const getPokemons = (
-  limit = 100,
-  offset = 0
-): Promise<{ results: Pokemon[] }> =>
-  axios.get("pokemon", {
-    params: {
-      limit: limit,
-      offset: offset,
-    },
-  });
+export const getUsers = async (): Promise<User[]> =>
+  ((await axios.get("/")) as User[]).filter((user) => user.status === 1);
+
+export const getUser = (userId: string): Promise<User> =>
+  axios.get(`/${userId}`);

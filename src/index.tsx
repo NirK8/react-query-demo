@@ -6,6 +6,7 @@ import App from "./App";
 import Home from "./pages/Home/Home";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
+import UsersPage from "./pages/Users/UsersPage";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -16,11 +17,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
-          {/* <Route path="teams" element={<Teams />}>
-          <Route path=":teamId" element={<Team />} />
-          <Route path="new" element={<NewTeamForm />} />
-          <Route index element={<LeagueStandings />} />
-        </Route> */}
+          <Route path=":id" element={<UsersPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

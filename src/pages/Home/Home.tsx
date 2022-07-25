@@ -1,29 +1,33 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useMemo } from "react";
+import React from "react";
 
-import { Card, CardsContainer, Pokeball, PokemonName } from "./styles";
+import { Card, CardsContainer, Pokeball, NameCard } from "./styles";
 import * as api from "../../api";
+import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
-  const { data, isLoading } = useQuery(["getPokemons"], () =>
-    api.getPokemons()
-  );
+  const { data, isLoading } = useQuery(["getUsers"], () => api.getUsers());
+  const navigate = useNavigate();
 
-  const pokemons = useMemo(() => data?.results, [data]);
+  const onCardClicked = (link: string) => {
+    navigate(`/${link}`);
+  };
 
   if (isLoading) return <h1>Loading...</h1>;
-  if (!pokemons) return <h1>No Results</h1>;
-
+  if (!data) return <h1>No Results</h1>;
   return (
     <CardsContainer>
-      {pokemons.map((pokemon, index) => {
-        return (
-          <Card key={pokemon.name + index}>
-            <Pokeball />
-            <PokemonName>{pokemon.name}</PokemonName>
-          </Card>
-        );
-      })}
+      {data.map((user, index) => (
+        <Card
+          key={user.firstName + index}
+          onClick={() => onCardClicked(index.toString())}
+        >
+          <Pokeball />
+          <NameCard>
+            {user.firstName} {user.lastName}
+          </NameCard>
+        </Card>
+      ))}
     </CardsContainer>
   );
 };

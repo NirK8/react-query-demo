@@ -1,1 +1,1 @@
-export * from "./pokemon.types";
+export * from "./users.types";

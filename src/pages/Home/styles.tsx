@@ -26,6 +26,7 @@ export const CardsContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: calc(100% - 64px);
   padding: 0 2rem;
   box-sizing: border-box;
 `;
@@ -54,7 +55,7 @@ export const Pokeball = styled.img.attrs({ src: pokeball })`
   max-width: 64px;
 `;
 
-export const PokemonName = styled.span`
+export const NameCard = styled.span`
   display: flex;
   align-items: center;
   margin-left: 8px;
