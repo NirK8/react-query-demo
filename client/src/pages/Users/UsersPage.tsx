@@ -53,10 +53,10 @@ const UsersPage: React.FC = () => {
       <TrashIcon onClick={onTrashClicked} />
       <Title firstName={user.firstName} lastName={user.lastName} />
       <DetailsContainer>
+        <Detail>Email: {user.email}</Detail>
         <Detail>Age: {user.age}</Detail>
-        <Detail>Role: {user.role}</Detail>
-        <Detail>Unit: {user.unit}</Detail>
-        <Detail>Tribe: {user.tribe}</Detail>
+        <Detail>Phone: {user.phone}</Detail>
+        <Detail>Address: {user.address}</Detail>
       </DetailsContainer>
     </Container>
   );

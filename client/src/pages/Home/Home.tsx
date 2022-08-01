@@ -20,7 +20,7 @@ const Home: React.FC = () => {
       {data.map((user, index) => (
         <Card
           key={user.firstName + index}
-          onClick={() => onCardClicked(index.toString())}
+          onClick={() => onCardClicked(user._id)}
         >
           <Pokeball />
           <NameCard>

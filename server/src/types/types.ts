@@ -8,6 +8,7 @@ export type User = {
   lastName: string;
   phone: string;
   email: string;
+  age: number;
   address: string;
   status: DocumentStatus;
 };
