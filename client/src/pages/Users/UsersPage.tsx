@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { MouseEventHandler } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import * as api from "../../api";
@@ -17,6 +17,7 @@ import {
 const UsersPage: React.FC = () => {
   const path = useLocation().pathname.substring(1);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data: user, isLoading } = useQuery(
     ["getUser"],
@@ -28,7 +29,16 @@ const UsersPage: React.FC = () => {
   const { mutateAsync: deleteUser } = useMutation(
     (userId: string) => api.deleteUser(userId),
     {
-      onSuccess: () => queryClient.invalidateQueries(["getUsers"]),
+      onSuccess: async () => {
+        queryClient.invalidateQueries(["getUsers"]);
+        const deletedSuccessfully = await Swal.fire({
+          titleText: "User has been deleted successfully",
+          confirmButtonText: "Proceed to home page",
+        });
+        if (deletedSuccessfully.isConfirmed) {
+          navigate("/");
+        }
+      },
     }
   );
 
