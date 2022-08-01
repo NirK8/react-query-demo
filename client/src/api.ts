@@ -19,7 +19,7 @@ export const getUsers = async (): Promise<User[]> => {
       resolve(
         ((await axios.get("/users")) as User[]).filter((user) => user.status)
       );
-    }, 1500);
+    }, 2000);
   });
 };
 
