@@ -15,10 +15,12 @@ export const Header = styled.header`
 
 export const Container = styled.div`
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 64px);
+  padding: 0 2rem;
   box-sizing: border-box;
 `;
 

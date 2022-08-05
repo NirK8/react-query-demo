@@ -13,18 +13,29 @@ type UserDto = {
   address: string;
 };
 
-export const getUsers = async (): Promise<User[]> => {
-  return new Promise((resolve, reject) => {
+type GetUsersFnArgs = {
+  slow?: boolean;
+};
+
+export const getUsers = async ({ slow = false }: GetUsersFnArgs = {}): Promise<
+  User[]
+> => {
+  if (slow) {
+    return getUsersSlowly();
+  }
+  return fetchUsers();
+};
+
+const getUsersSlowly = async (): Promise<User[]> => {
+  return new Promise((resolve, _reject) => {
     setTimeout(async () => {
-      resolve(
-        ((await axios.get("/users")) as User[]).filter((user) => user.status)
-      );
+      resolve(fetchUsers());
     }, 2000);
   });
 };
 
-// export const getUsers = async (): Promise<User[]> =>
-//   ((await axios.get("/users")) as User[]).filter((user) => user.status);
+const fetchUsers = async () =>
+  ((await axios.get("/users")) as User[]).filter((user) => user.status);
 
 export const getUser = (userId: string): Promise<User> =>
   axios.get(`/users/${userId}`);

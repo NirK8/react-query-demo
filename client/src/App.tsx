@@ -17,7 +17,9 @@ const AppWrapper = styled.div`
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 17000,
+      staleTime: 0,
+      // staleTime: 17000,
+      cacheTime: 1000,
     },
   },
 });
