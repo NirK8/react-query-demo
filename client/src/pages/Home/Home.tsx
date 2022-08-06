@@ -6,7 +6,7 @@ import * as api from "../../api";
 import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
-  const { data, isLoading } = useQuery(["getUsers"], () =>
+  const { data, isLoading, isError } = useQuery(["getUsers"], () =>
     api.getUsers({ slow: true })
   );
   const navigate = useNavigate();
@@ -15,6 +15,12 @@ const Home: React.FC = () => {
     navigate(`/${link}`);
   };
 
+  if (isError)
+    return (
+      <Container>
+        <h1>An error has occured</h1>
+      </Container>
+    );
   if (isLoading)
     return (
       <Container>
