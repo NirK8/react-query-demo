@@ -4,9 +4,10 @@ import React from "react";
 import { Card, Container, CardsContainer, Pokeball, NameCard } from "./styles";
 import * as api from "../../api";
 import { useNavigate } from "react-router-dom";
+import { User } from "../../types";
 
 const Home: React.FC = () => {
-  const { data, isLoading, isError } = useQuery(["getUsers"], () =>
+  const { data, isLoading, isError } = useQuery<User[]>(["getUsers"], () =>
     api.getUsers({ slow: true })
   );
   const navigate = useNavigate();

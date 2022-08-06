@@ -1,9 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  MutationFunction,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+
 import React, { MouseEventHandler } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import * as api from "../../api";
+import { User } from "../../types";
 import {
   Container,
   Detail,
@@ -13,6 +20,7 @@ import {
   Title,
   TrashIcon,
 } from "./styles";
+import _ from "lodash";
 
 const UsersPage: React.FC = () => {
   const path = useLocation().pathname.substring(1);
@@ -29,8 +37,21 @@ const UsersPage: React.FC = () => {
   const { mutateAsync: deleteUser } = useMutation(
     (userId: string) => api.deleteUser(userId),
     {
-      onSuccess: async () => {
-        queryClient.invalidateQueries(["getUsers"]);
+      onSuccess: async (deletedUser: User) => {
+        // OPTION 1: nothing
+
+        // OPTION 2a: refetchQueries
+        // queryClient.refetchQueries(["getUsers"]);
+
+        // OPTION 2b: invalidateQueries
+        // queryClient.invalidateQueries(["getUsers"]);
+
+        // OPTION 3 (best): setQueryData
+        queryClient.setQueryData<User[]>(["getUsers"], (oldData) => {
+          if (oldData) {
+            return _.filter(oldData, (user) => user._id !== deletedUser._id);
+          }
+        });
         const deletedSuccessfully = await Swal.fire({
           titleText: "User has been deleted successfully",
           confirmButtonText: "Proceed to home page",

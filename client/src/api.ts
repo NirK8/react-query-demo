@@ -3,7 +3,7 @@ import axios from "axios";
 import { BASE_URL } from "./consts";
 import { User } from "./types";
 axios.defaults.baseURL = BASE_URL;
-axios.interceptors.response.use((res) => res.data);
+// axios.interceptors.response.use((res) => res.data);
 
 type UserDto = {
   firstName: string;
@@ -35,15 +35,17 @@ const getUsersSlowly = async (): Promise<User[]> => {
 };
 
 const fetchUsers = async () =>
-  ((await axios.get("/users")) as User[]).filter((user) => user.status);
+  ((await axios.get("/users")).data as User[]).filter((user) => user.status);
 
-export const getUser = (userId: string): Promise<User> =>
-  axios.get(`/users/${userId}`);
+export const getUser = async (userId: string): Promise<User> =>
+  (await axios.get(`/users/${userId}`)).data;
 
-export const deleteUser = (userId: string) =>
-  axios.put(`/users/${userId}`, {
-    status: 0,
-  });
+export const deleteUser = async (userId: string) =>
+  (
+    await axios.put(`/users/${userId}`, {
+      status: 0,
+    })
+  ).data;
 export const createUser = (userDto: UserDto) =>
   axios.post(`/users}`, {
     status: 1,
