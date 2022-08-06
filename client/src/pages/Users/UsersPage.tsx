@@ -40,18 +40,18 @@ const UsersPage: React.FC = () => {
       onSuccess: async (deletedUser: User) => {
         // OPTION 1: nothing
 
-        // OPTION 2a: refetchQueries
-        // queryClient.refetchQueries(["getUsers"]);
-
         // OPTION 2b: invalidateQueries
         // queryClient.invalidateQueries(["getUsers"]);
 
+        // OPTION 2a: refetchQueries
+        // queryClient.refetchQueries(["getUsers"]);
+
         // OPTION 3 (best): setQueryData
-        queryClient.setQueryData<User[]>(["getUsers"], (oldData) => {
-          if (oldData) {
-            return _.filter(oldData, (user) => user._id !== deletedUser._id);
-          }
-        });
+        // queryClient.setQueryData<User[]>(["getUsers"], (oldData) => {
+        //   if (oldData) {
+        //     return _.filter(oldData, (user) => user._id !== deletedUser._id);
+        //   }
+        // });
         const deletedSuccessfully = await Swal.fire({
           titleText: "User has been deleted successfully",
           confirmButtonText: "Proceed to home page",
