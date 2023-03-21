@@ -12,8 +12,8 @@ const Home: React.FC = () => {
   );
   const navigate = useNavigate();
 
-  const onCardClicked = (link: string) => {
-    navigate(`/${link}`);
+  const onCardClicked = (userId: string) => {
+    navigate(`user?userId=${userId}`);
   };
 
   if (isError)

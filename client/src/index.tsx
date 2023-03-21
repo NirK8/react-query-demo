@@ -17,7 +17,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
-          <Route path=":id" element={<UsersPage />} />
+          <Route path="user" element={<UsersPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

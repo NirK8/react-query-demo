@@ -1,4 +1,6 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+
+import { HttpLoggerMiddleware } from './middlewares/http-logger';
 import { DatabaseModule } from './app/database/database.module';
 import { UsersModule } from './app/users/users.module';
 
@@ -7,4 +9,8 @@ import { UsersModule } from './app/users/users.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(HttpLoggerMiddleware).forRoutes('*');
+  }
+}

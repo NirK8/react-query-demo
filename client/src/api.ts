@@ -3,7 +3,6 @@ import axios from "axios";
 import { BASE_URL } from "./consts";
 import { User } from "./types";
 axios.defaults.baseURL = BASE_URL;
-// axios.interceptors.response.use((res) => res.data);
 
 type UserDto = {
   firstName: string;
@@ -38,7 +37,10 @@ const fetchUsers = async () =>
   ((await axios.get("/users")).data as User[]).filter((user) => user.status);
 
 export const getUser = async (userId: string): Promise<User> =>
-  (await axios.get(`/users/${userId}`)).data;
+  new Promise(async (res) => {
+    const data = (await axios.get(`/users/${userId}`)).data;
+    setTimeout(() => res(data), 2000);
+  });
 
 export const deleteUser = async (userId: string) =>
   (

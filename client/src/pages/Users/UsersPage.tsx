@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query";
 
 import React, { MouseEventHandler } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import * as api from "../../api";
@@ -23,15 +23,17 @@ import {
 import _ from "lodash";
 
 const UsersPage: React.FC = () => {
-  const path = useLocation().pathname.substring(1);
-  const queryClient = useQueryClient();
+  const [searchParams] = useSearchParams();
+  const userId = searchParams.get("userId") as string;
+
+  // const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const { data: user, isLoading } = useQuery(
-    ["getUser"],
-    () => api.getUser(path),
+    ["getUser", userId],
+    () => api.getUser(userId),
     {
-      enabled: Boolean(path),
+      enabled: Boolean(userId),
     }
   );
   const { mutateAsync: deleteUser } = useMutation(
@@ -39,19 +41,6 @@ const UsersPage: React.FC = () => {
     {
       onSuccess: async (deletedUser: User) => {
         // OPTION 1: nothing
-
-        // OPTION 2b: invalidateQueries
-        // queryClient.invalidateQueries(["getUsers"]);
-
-        // OPTION 2a: refetchQueries
-        // queryClient.refetchQueries(["getUsers"]);
-
-        // OPTION 3 (best): setQueryData
-        // queryClient.setQueryData<User[]>(["getUsers"], (oldData) => {
-        //   if (oldData) {
-        //     return _.filter(oldData, (user) => user._id !== deletedUser._id);
-        //   }
-        // });
         const deletedSuccessfully = await Swal.fire({
           titleText: "User has been deleted successfully",
           confirmButtonText: "Proceed to home page",
@@ -59,6 +48,20 @@ const UsersPage: React.FC = () => {
         if (deletedSuccessfully.isConfirmed) {
           navigate("/");
         }
+
+        // OPTION 2b: invalidateQueries
+        // This option will set the query status to "stale"
+        // queryClient.invalidateQueries(["getUsers"]);
+
+        // OPTION 2a: refetchQueries
+        // queryClient.refetchQueries(["getUsers"]);
+
+        // OPTION 3: setQueryData
+        // queryClient.setQueryData<User[]>(["getUsers"], (oldData) => {
+        //   if (oldData) {
+        //     return _.filter(oldData, (user) => user._id !== deletedUser._id);
+        //   }
+        // });
       },
     }
   );
@@ -73,7 +76,7 @@ const UsersPage: React.FC = () => {
       reverseButtons: true,
     });
     if (result.isConfirmed) {
-      await deleteUser(path);
+      await deleteUser(userId);
     }
   };
 
