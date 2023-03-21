@@ -30,7 +30,7 @@ const UsersPage: React.FC = () => {
   const navigate = useNavigate();
 
   const { data: user, isLoading } = useQuery(
-    ["getUser", userId],
+    ["user", userId],
     () => api.getUser(userId),
     {
       enabled: Boolean(userId),

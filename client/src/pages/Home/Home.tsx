@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { User } from "../../types";
 
 const Home: React.FC = () => {
-  const { data, isLoading, isError } = useQuery<User[]>(["getUsers"], () =>
+  const { data, isLoading, isError } = useQuery<User[]>(["users"], () =>
     api.getUsers({ slow: true })
   );
   const navigate = useNavigate();
